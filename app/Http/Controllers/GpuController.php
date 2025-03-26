@@ -15,7 +15,7 @@ class GpuController extends Controller
     public function index()
     {
         try {
-            $gpus = DB::table('gpus')->get();
+            $gpus = DB::table('gpu')->get();
             return ApiResponseService::success($gpus, 'GPUs fetched successfully');
         } catch (Exception $e) {
             return ApiResponseService::error('Failed to fetch GPUs', 500, $e->getMessage());
@@ -26,7 +26,7 @@ class GpuController extends Controller
     public function show($id)
     {
         try {
-            $gpu = DB::table('gpus')->where('gpu_id', $id)->first();
+            $gpu = DB::table('gpu')->where('gpu_id', $id)->first();
             if (!$gpu) {
                 return ApiResponseService::error('GPU not found', 404);
             }
@@ -40,8 +40,8 @@ class GpuController extends Controller
     public function store(GpuRequest $request)
     {
         try {
-            $gpu_id = DB::table('gpus')->insertGetId([
-                'company_name' => $request->company_name,
+            $gpu_id = DB::table('gpu')->insertGetId([
+                'gpu_company_id' => $request->gpu_company_id,
                 'gpu_name' => $request->gpu_name,
                 'memory_size' => $request->memory_size,
                 'core_clock_speed' => $request->core_clock_speed,
@@ -68,7 +68,7 @@ class GpuController extends Controller
             }
 
             DB::table('gpus')->where('gpu_id', $id)->update([
-                'company_name' => $request->company_name,
+                'gpu_company_id' => $request->gpu_company_id,
                 'gpu_name' => $request->gpu_name,
                 'memory_size' => $request->memory_size,
                 'core_clock_speed' => $request->core_clock_speed,
